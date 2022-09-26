@@ -1,1 +1,114 @@
+mensaje persona1;
+ String valen = "", tomas = "";
+String [] chat= new String [10];
 
+color[] col = new color[10];
+
+int tes = 0;
+
+import hypermedia.net.*;
+
+UDP udp;
+
+void setup() {
+  persona1= new mensaje(mensaje, "de Valentino",#24E7FF);
+
+  size(1000, 1000);
+
+  background(0);
+
+  udp = new UDP(this, 32);
+
+  udp.listen(true);
+
+  textAlign(CENTER);
+
+  rectMode(CENTER);
+
+  for (int i=0; i<chat.length; i++) {
+
+  chat[i] =""; 
+
+  }
+
+  textAlign(CENTER); textSize(25); rectMode(CENTER);
+
+}
+
+
+
+void keyPressed() {
+
+  valen  += str( key );
+
+  String ip       = "192.168.100.11";
+
+  int port        = 32;
+
+
+
+  if (keyCode==ENTER) {
+
+    udp.send( valen, ip, port );
+
+    println("enviado: "+valen); 
+
+  for (int i=0; i<chat.length -1; i++) {
+
+      chat[i]=chat[i+1];
+
+      col[i]= col[i+1];
+
+    }
+
+    col[chat.length-1]= #2BB965;
+
+    chat[chat.length-1]=valen;
+
+    valen="";
+
+  }
+
+}
+
+void receive(byte[]data, String ip, int port) {
+
+  data = subset(data, 0, data.length);
+
+ tomas = new String(data);
+
+  if (tes <chat.length) {
+
+    tes++;
+
+  } else {
+
+    for (int i=0; i<chat.length -1; i++) {
+
+      chat[i]=chat[i+1];
+
+      col[i]= col[i+1];
+
+    }
+
+  }
+
+  col[chat.length-1]= #2BB965;
+
+  chat[tes-1]=tomas;
+
+  tomas="";
+
+  println( "receive: \""+tomas+"\" from "+ip+" on port "+port );
+
+}
+
+void draw() {
+
+  background(0);
+
+  fill(255);
+
+  
+persona1.dubujar();
+}
