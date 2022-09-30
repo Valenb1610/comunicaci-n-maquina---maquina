@@ -1,114 +1,62 @@
-mensaje persona1;
- String valen = "", tomas = "";
-String [] chat= new String [10];
+ import hypermedia.net.*;
 
-color[] col = new color[10];
+UDP udp;  
 
-int tes = 0;
+chat chat1;
+color c1=  #51005D;
+String nombre1 = "Valentino";
 
-import hypermedia.net.*;
-
-UDP udp;
+int index=0;
 
 void setup() {
-  persona1= new mensaje(mensaje, "de Valentino",#24E7FF);
 
-  size(1000, 1000);
+  udp = new UDP( this,5010);
 
-  background(0);
+  udp.listen( true );
 
-  udp = new UDP(this, 32);
+  size(700, 600);
 
-  udp.listen(true);
-
-  textAlign(CENTER);
-
-  rectMode(CENTER);
-
-  for (int i=0; i<chat.length; i++) {
-
-  chat[i] =""; 
-
-  }
-
-  textAlign(CENTER); textSize(25); rectMode(CENTER);
-
-}
-
-
-
-void keyPressed() {
-
-  valen  += str( key );
-
-  String ip       = "192.168.100.11";
-
-  int port        = 32;
-
-
-
-  if (keyCode==ENTER) {
-
-    udp.send( valen, ip, port );
-
-    println("enviado: "+valen); 
-
-  for (int i=0; i<chat.length -1; i++) {
-
-      chat[i]=chat[i+1];
-
-      col[i]= col[i+1];
-
-    }
-
-    col[chat.length-1]= #2BB965;
-
-    chat[chat.length-1]=valen;
-
-    valen="";
-
-  }
-
-}
-
-void receive(byte[]data, String ip, int port) {
-
-  data = subset(data, 0, data.length);
-
- tomas = new String(data);
-
-  if (tes <chat.length) {
-
-    tes++;
-
-  } else {
-
-    for (int i=0; i<chat.length -1; i++) {
-
-      chat[i]=chat[i+1];
-
-      col[i]= col[i+1];
-
-    }
-
-  }
-
-  col[chat.length-1]= #2BB965;
-
-  chat[tes-1]=tomas;
-
-  tomas="";
-
-  println( "receive: \""+tomas+"\" from "+ip+" on port "+port );
+ 
 
 }
 
 void draw() {
 
-  background(0);
+  background(200);
 
-  fill(255);
+  if (chat1 != null) {
 
-  
-persona1.dubujar();
+    chat1.dibujar();
+
+  }
+
+}
+
+void keyPressed() {
+
+   
+
+    String message  = str( key ); 
+
+    String ip       = "localhost";  
+
+    int port        =5010;   
+
+    message = message+"holaaa";
+    udp.send( message, ip, port );
+}
+
+void receive( byte[] data, String ip, int port ) {  
+
+
+
+  data = subset(data, 0, data.length);
+
+  String message = new String( data );
+
+
+  chat1= new chat(nombre1,message,c1, 250,250,150,40);
+
+
+
 }
