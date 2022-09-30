@@ -1,34 +1,28 @@
-class mensaje
-{
-  String mensajes = "", nombre = "";
-  color c1;
- mensaje(String xmensajes, String xnombre, color tc1)
+class chat{
+
+ String msj = "", nombre = "";
+  color c;
+
+  float  x,  y;  
+
+  float tamx,  tamy;
+
+  chat(String xnombre, String MSJ, color C, float  X, float Y, float tamX, float tamY){
+
+ 
+
+  x=X;y=Y;tamx=tamX;tamy=tamY; c=C; nombre=xnombre; msj=MSJ;
+
+ 
+
+ }
+
+ void dibujar()
+
   {
-    nombre=xnombre;
-    mensajes=xmensajes;
-    c1=tc1;
-  }
-  
-}
-  void dibujar()
-  {
-    fill(c1);
-    for (int i=0; i<chat.length; i++) {
 
-    if (chat[i] !="") {
+  fill(c);rect(x-25,y-25,tamx+90,tamy);fill(255);text("<"+msj+" -_._- "+nombre+">",x,y);
 
-      fill(255,0,0);
+ }
 
-      rect(width/2, i*(height/(chat.length+5))+(height/chat.length)-10, width/2, 30);
-
-      fill(255);
-
-      text(chat[i], width/2, i*(height/(chat.length+5))+(height/chat.length));
-
-    }
-
-  }
-
-  text(mensajes+nombre, width/2, height/0.9);
-  } 
 }
